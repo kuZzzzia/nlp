@@ -49,8 +49,9 @@ def make_vocabulary(texts):
 
 def make_unigram_bigram_models(voc, text, alpha = 1.0):
     uni = {}
+    
     for word in voc:
-        uni[word] = alpha
+        uni[word] = 0.0
     for word in text:
         uni[word] += 1
     
@@ -64,6 +65,9 @@ def make_unigram_bigram_models(voc, text, alpha = 1.0):
         bi[(text[i],text[i-1])] += 1
     for (head, tail) in bi:
         bi[(head, tail)] /= uni[tail] + alpha * len(voc)
+
+    for word in voc:
+        uni[word] += alpha
 
     for word in uni:
         uni[word] /= len(text) + alpha * len(voc)
